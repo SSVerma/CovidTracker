@@ -1,0 +1,49 @@
+<resources>
+    <string name="app_name">CovidTracker</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="title_home">Home</string>
+    <string name="title_statistics">Statistics</string>
+    <string name="title_about">About</string>
+    <string name="total_cases">Total Cases</string>
+    <string name="total_active">Active</string>
+    <string name="total_recovered">Recovered</string>
+    <string name="total_critical">Critical</string>
+    <string name="total_deaths">Deaths</string>
+    <string name="total_tests">Tests</string>
+
+    <string name="most_common_symptom_label">Most Common Symptom</string>
+    <string name="less_common_symptom_label">Less Common Symptom</string>
+    <string name="serious_symptom_label">Serious Symptom</string>
+
+    <string name="most_common_symptoms">The most common symptoms of COVID-19 are fever, dry cough, and tiredness.</string>
+    <string name="less_common_symptoms">Aches and pains, nasal congestion, headache, conjunctivitis, sore throat.</string>
+    <string name="serious_symptoms">Difficulty breathing or shortness of breath, chest pain or pressure, loss of speech or movement.</string>
+    <string name="prevention">Prevention</string>
+    <string name="prevention_stay_at_home">Stay at home</string>
+    <string name="prevention_keep_safe_distance">Keep a safe distance</string>
+    <string name="prevention_wash_hands">Wash hands often</string>
+    <string name="prevention_cover_cough">Cover coughs and sneezes</string>
+    <string name="prevention_wear_mask">Wear mask if you are sick</string>
+    <string name="prevention_clean_disinfect">Clean and disinfect</string>
+    <string name="global">Global</string>
+    <string name="my_country">My Country</string>
+    <string name="today_cases">Today Cases</string>
+    <string name="today_deaths">Today Deaths</string>
+    <string name="title_country">Country</string>
+    <string name="search_country">Search Country</string>
+    <string name="app_info">\'CovidTracker\' is developed during the \'30 Days of Kotlin\' Google Devs India event.\n\nThe application
+        provides information about COVID-19 symptoms, prevention and statistics. In case of any ambiguities in written text,
+        Please treat information provided by WHO or corresponding Country as authentic and genuine information.\n\nThe application
+        is developed only for the LEARNING purpose.
+    </string>
+
+    <string name="important_links">Important Links</string>
+    <string name="api_link">https://github.com/NovelCOVID/API</string>
+    <string name="app_source_code_link">https://github.com/SSVerma/CovidTracker</string>
+    <string name="developer_link">https://twitter.com/ssverma1916</string>
+    <string name="ss_verma">SS Verma</string>
+    <string name="api">API</string>
+    <string name="app_source_code">Source code</string>
+    <string name="developer">Developer</string>
+
+</resources>

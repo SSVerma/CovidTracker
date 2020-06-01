@@ -1,0 +1,16 @@
+<resources>
+
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="colorPrimary">@color/color_blue_700</item>
+        <item name="colorPrimaryVariant">@color/color_blue_800</item>
+        <item name="android:statusBarColor">@color/color_blue_800</item>
+    </style>
+
+    <style name="AppTheme.LightOverlay" parent="ThemeOverlay.MaterialComponents.Dark" />
+
+    <style name="AppTheme.Splash" parent="AppTheme">
+        <item name="android:windowBackground">@drawable/splash_background</item>
+        <item name="android:statusBarColor">@color/color_grey_400</item>
+    </style>
+
+</resources>

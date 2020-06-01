@@ -1,0 +1,335 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="item"
+            type="com.ssverma.covidtracker.data.model.domain.CovidStat" />
+    </data>
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/country_card_horizontal_spacing"
+        android:layout_marginTop="@dimen/country_card_vertical_spacing"
+        android:layout_marginEnd="@dimen/country_card_horizontal_spacing"
+        android:layout_marginBottom="@dimen/country_card_vertical_spacing">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingTop="@dimen/content_spacing">
+
+            <!--Country flag-->
+            <ImageView
+                android:id="@+id/iv_flag"
+                android:layout_width="@dimen/country_flag_image_width"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/content_spacing"
+                android:adjustViewBounds="true"
+                android:background="@drawable/image_placeholder"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_iso"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/tv_country_name"
+                bind:imageUrl="@{item.countryFlagUrl}"
+                tools:ignore="ContentDescription"
+                tools:src="@drawable/image_placeholder" />
+
+            <!--Country name-->
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv_country_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/content_spacing"
+                android:text="@{item.countryName}"
+                android:textAppearance="?attr/textAppearanceHeadline6"
+                app:layout_constraintStart_toEndOf="@+id/iv_flag"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="India" />
+
+            <!--ISO-->
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv_iso"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/country_iso_spacing_top"
+                android:text="@{item.countryIso3}"
+                android:textAppearance="?attr/textAppearanceCaption"
+                app:layout_constraintBottom_toBottomOf="@+id/iv_flag"
+                app:layout_constraintStart_toStartOf="@+id/tv_country_name"
+                app:layout_constraintTop_toBottomOf="@+id/tv_country_name"
+                tools:text="IND" />
+
+            <!--Border-->
+            <View
+                android:id="@+id/view_border_header"
+                android:layout_width="0dp"
+                android:layout_height="0.01dp"
+                android:layout_marginTop="@dimen/content_spacing"
+                android:background="@color/color_grey_400"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_iso" />
+
+            <!--Center vertical guideline-->
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline_center_vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.5" />
+
+            <!--Vertical center border-->
+            <View
+                android:id="@+id/view_border_vertical_center"
+                android:layout_width="0.01dp"
+                android:layout_height="0dp"
+                android:background="@color/color_grey_400"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/guideline_center_vertical"
+                app:layout_constraintStart_toEndOf="@+id/guideline_center_vertical"
+                app:layout_constraintTop_toBottomOf="@+id/view_border_header" />
+
+            <!--Total cases count-->
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv_total_cases_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/content_spacing"
+                android:text="@{item.displayCases}"
+                android:textAppearance="?attr/textAppearanceHeadline5"
+                app:layout_constraintEnd_toStartOf="@+id/guideline_center_vertical"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/view_border_header"
+                tools:text="1,65,000" />
+
+            <!--Total cases label-->
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv_total_cases_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/country_stat_item_stat_label_spacing_top"
+                android:text="@string/total_cases"
+                app:layout_constraintEnd_toEndOf="@+id/tv_total_cases_count"
+                app:layout_constraintStart_toStartOf="@+id/tv_total_cases_count"
+                app:layout_constraintTop_toBottomOf="@+id/tv_total_cases_count" />
+
+            <!--Active count-->
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv_active_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{item.displayActive}"
+                android:textColor="@color/color_blue_800"
+                android:textAppearance="?attr/textAppearanceHeadline5"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/guideline_center_vertical"
+                app:layout_constraintTop_toTopOf="@+id/tv_total_cases_count"
+                tools:text="1,12,000" />
+
+            <!--Active label-->
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv_active_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/country_stat_item_stat_label_spacing_top"
+                android:text="@string/total_active"
+                android:textColor="@color/color_blue_800"
+                app:layout_constraintEnd_toEndOf="@+id/tv_active_count"
+                app:layout_constraintStart_toStartOf="@+id/tv_active_count"
+                app:layout_constraintTop_toBottomOf="@+id/tv_active_count" />
+
+            <!--Total case border-->
+            <View
+                android:id="@+id/view_border_total_case"
+                android:layout_width="0dp"
+                android:layout_height="0.01dp"
+                android:layout_marginTop="@dimen/content_spacing"
+                android:background="@color/color_grey_400"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_total_cases_label" />
+
+            <!--Recovered count-->
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv_recovered_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/content_spacing"
+                android:text="@{item.displayRecovered}"
+                android:textColor="@color/color_green_500"
+                android:textAppearance="?attr/textAppearanceHeadline5"
+                app:layout_constraintEnd_toStartOf="@+id/guideline_center_vertical"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/view_border_total_case"
+                tools:text="1,65,000" />
+
+            <!--Recovered label-->
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv_recovered_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/country_stat_item_stat_label_spacing_top"
+                android:text="@string/total_recovered"
+                android:textColor="@color/color_green_500"
+                app:layout_constraintEnd_toEndOf="@+id/tv_recovered_count"
+                app:layout_constraintStart_toStartOf="@+id/tv_recovered_count"
+                app:layout_constraintTop_toBottomOf="@+id/tv_recovered_count" />
+
+            <!--Critical count-->
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv_critical_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{item.displayCritical}"
+                android:textColor="@color/color_orange_500"
+                android:textAppearance="?attr/textAppearanceHeadline5"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/guideline_center_vertical"
+                app:layout_constraintTop_toTopOf="@+id/tv_recovered_count"
+                tools:text="1,12,000" />
+
+            <!--Critical label-->
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv_critical_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/country_stat_item_stat_label_spacing_top"
+                android:text="@string/total_critical"
+                android:textColor="@color/color_orange_500"
+                app:layout_constraintEnd_toEndOf="@+id/tv_critical_count"
+                app:layout_constraintStart_toStartOf="@+id/tv_critical_count"
+                app:layout_constraintTop_toBottomOf="@+id/tv_critical_count" />
+
+            <!--Recovered border-->
+            <View
+                android:id="@+id/view_border_recovered"
+                android:layout_width="0dp"
+                android:layout_height="0.01dp"
+                android:layout_marginTop="@dimen/content_spacing"
+                android:background="@color/color_grey_400"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_recovered_label" />
+
+            <!--Deaths count-->
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv_deaths_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/content_spacing"
+                android:text="@{item.displayDeaths}"
+                android:textColor="@color/color_red_500"
+                android:textAppearance="?attr/textAppearanceHeadline5"
+                app:layout_constraintEnd_toStartOf="@+id/guideline_center_vertical"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/view_border_recovered"
+                tools:text="1,65,000" />
+
+            <!--Deaths label-->
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv_deaths_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/country_stat_item_stat_label_spacing_top"
+                android:text="@string/total_deaths"
+                android:textColor="@color/color_red_500"
+                app:layout_constraintEnd_toEndOf="@+id/tv_deaths_count"
+                app:layout_constraintStart_toStartOf="@+id/tv_deaths_count"
+                app:layout_constraintTop_toBottomOf="@+id/tv_deaths_count" />
+
+            <!--Tests count-->
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv_tests_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{item.displayTests}"
+                android:textColor="@color/color_purple_500"
+                android:textAppearance="?attr/textAppearanceHeadline5"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/guideline_center_vertical"
+                app:layout_constraintTop_toTopOf="@+id/tv_deaths_count"
+                tools:text="100" />
+
+            <!--Test label-->
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv_tests_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/country_stat_item_stat_label_spacing_top"
+                android:text="@string/total_tests"
+                android:textColor="@color/color_purple_500"
+                app:layout_constraintEnd_toEndOf="@+id/tv_tests_count"
+                app:layout_constraintStart_toStartOf="@+id/tv_tests_count"
+                app:layout_constraintTop_toBottomOf="@+id/tv_tests_count" />
+
+            <!--Deaths border-->
+            <View
+                android:id="@+id/view_border_deaths"
+                android:layout_width="0dp"
+                android:layout_height="0.01dp"
+                android:layout_marginTop="@dimen/content_spacing"
+                android:background="@color/color_grey_400"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_deaths_label" />
+
+            <!--Today cases count-->
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv_today_cases_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/content_spacing"
+                android:text="@{item.displayTodayCases}"
+                android:textAppearance="?attr/textAppearanceHeadline5"
+                app:layout_constraintEnd_toStartOf="@+id/guideline_center_vertical"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/view_border_deaths"
+                tools:text="1,65,000" />
+
+            <!--Today cases label-->
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv_today_cases_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/country_stat_item_stat_label_spacing_top"
+                android:layout_marginBottom="@dimen/content_spacing"
+                android:text="@string/today_cases"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/tv_today_cases_count"
+                app:layout_constraintStart_toStartOf="@+id/tv_today_cases_count"
+                app:layout_constraintTop_toBottomOf="@+id/tv_today_cases_count" />
+
+            <!--Today death count-->
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv_today_deaths_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{item.displayTodayDeaths}"
+                android:textColor="@color/color_red_500"
+                android:textAppearance="?attr/textAppearanceHeadline5"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/guideline_center_vertical"
+                app:layout_constraintTop_toTopOf="@+id/tv_today_cases_count"
+                tools:text="1" />
+
+            <!--Today death label-->
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv_today_deaths_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/country_stat_item_stat_label_spacing_top"
+                android:text="@string/today_deaths"
+                android:textColor="@color/color_red_500"
+                app:layout_constraintEnd_toEndOf="@+id/tv_today_deaths_count"
+                app:layout_constraintStart_toStartOf="@+id/tv_today_deaths_count"
+                app:layout_constraintTop_toBottomOf="@+id/tv_today_deaths_count" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+</layout>

@@ -1,0 +1,29 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context="com.ssverma.covidtracker.ui.country.CountryFragment">
+
+        <!--Countries-->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_countries"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/color_blue_50" />
+
+        <!--Loading indicator-->
+        <com.facebook.shimmer.ShimmerFrameLayout
+            android:id="@+id/shimmer_countries"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"
+            tools:visibility="visible">
+
+            <include layout="@layout/shimmer_country" />
+
+        </com.facebook.shimmer.ShimmerFrameLayout>
+
+    </FrameLayout>
+</layout>

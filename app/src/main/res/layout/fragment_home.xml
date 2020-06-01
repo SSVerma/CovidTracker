@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!--Symptoms-->
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/view_pager_symptom"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <!--Indicator-->
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/tab_indicator"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:tabBackground="@drawable/dot_indicator"
+                app:tabGravity="center"
+                app:tabIndicatorHeight="0dp" />
+
+            <!--Prevention label-->
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/content_spacing"
+                android:layout_marginEnd="@dimen/content_spacing"
+                android:text="@string/prevention"
+                android:textAppearance="?attr/textAppearanceHeadline5"
+                android:textStyle="bold" />
+
+            <!--Preventions-->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_preventions"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:nestedScrollingEnabled="false" />
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</layout>

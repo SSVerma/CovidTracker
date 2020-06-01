@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="flagImageUrl"
+            type="String" />
+    </data>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <!--Global label-->
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv_global_label"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/content_spacing"
+                android:layout_marginTop="@dimen/content_spacing"
+                android:layout_marginEnd="@dimen/content_spacing"
+                android:text="@string/global"
+                android:textAppearance="?attr/textAppearanceHeadline5"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <!--Global stats-->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_global_stats"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/stat_item_padding"
+                android:nestedScrollingEnabled="false"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_global_label" />
+
+            <!--Loading indicator-->
+            <com.facebook.shimmer.ShimmerFrameLayout
+                android:id="@+id/shimmer_global"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/stat_item_padding"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_global_label">
+
+                <include layout="@layout/shimmer_stat" />
+
+            </com.facebook.shimmer.ShimmerFrameLayout>
+
+            <!--Barrier-->
+            <androidx.constraintlayout.widget.Barrier
+                android:id="@+id/barrier_shimmer_global"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:barrierDirection="bottom"
+                app:constraint_referenced_ids="rv_global_stats,shimmer_global" />
+
+            <!--My country label-->
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv_my_country_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/content_spacing"
+                android:layout_marginTop="@dimen/content_spacing"
+                android:text="@string/my_country"
+                android:textAppearance="?attr/textAppearanceHeadline5"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/barrier_shimmer_global" />
+
+            <!--Country flag-->
+            <ImageView
+                android:id="@+id/iv_flag"
+                android:layout_width="@dimen/stat_flag_image_width"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/content_spacing"
+                android:layout_marginEnd="@dimen/content_spacing"
+                android:adjustViewBounds="true"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_my_country_label"
+                app:layout_constraintEnd_toStartOf="@+id/tv_country_name"
+                app:layout_constraintTop_toTopOf="@+id/tv_my_country_label"
+                bind:imageUrl="@{flagImageUrl}"
+                tools:ignore="ContentDescription"
+                tools:src="@drawable/image_placeholder" />
+
+            <!--Country name-->
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv_country_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/content_spacing"
+                android:textAppearance="?attr/textAppearanceHeadline6"
+                app:layout_constraintBottom_toBottomOf="@+id/iv_flag"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/iv_flag"
+                tools:text="India" />
+
+            <!--Global stats-->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_my_country_stats"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/stat_item_padding"
+                android:nestedScrollingEnabled="false"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_my_country_label" />
+
+            <!--Loading indicator-->
+            <com.facebook.shimmer.ShimmerFrameLayout
+                android:id="@+id/shimmer_my_country"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/stat_item_padding"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_my_country_label">
+
+                <include layout="@layout/shimmer_stat" />
+
+            </com.facebook.shimmer.ShimmerFrameLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </androidx.core.widget.NestedScrollView>
+
+</layout>
