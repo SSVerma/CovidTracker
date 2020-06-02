@@ -60,13 +60,26 @@
 
             </com.facebook.shimmer.ShimmerFrameLayout>
 
+            <!--Network error view-->
+            <include
+                android:id="@+id/cv_error_view_global"
+                layout="@layout/network_error_view"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/content_spacing"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_global_label"
+                tools:visibility="visible" />
+
             <!--Barrier-->
             <androidx.constraintlayout.widget.Barrier
                 android:id="@+id/barrier_shimmer_global"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:barrierDirection="bottom"
-                app:constraint_referenced_ids="rv_global_stats,shimmer_global" />
+                app:constraint_referenced_ids="rv_global_stats,shimmer_global, cv_error_view_global" />
 
             <!--My country label-->
             <com.google.android.material.textview.MaterialTextView
@@ -132,6 +145,22 @@
                 <include layout="@layout/shimmer_stat" />
 
             </com.facebook.shimmer.ShimmerFrameLayout>
+
+            <!--Network error view-->
+            <include
+                android:id="@+id/cv_error_view_my_country"
+                layout="@layout/network_error_view"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/content_spacing"
+                android:layout_marginBottom="@dimen/content_spacing"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_my_country_label"
+                app:layout_constraintVertical_bias="0"
+                tools:visibility="visible" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

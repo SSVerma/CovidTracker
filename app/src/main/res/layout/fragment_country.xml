@@ -25,5 +25,14 @@
 
         </com.facebook.shimmer.ShimmerFrameLayout>
 
+        <!--Error view-->
+        <include
+            android:id="@+id/cv_error_view"
+            layout="@layout/network_error_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="@dimen/content_spacing" />
+
     </FrameLayout>
 </layout>

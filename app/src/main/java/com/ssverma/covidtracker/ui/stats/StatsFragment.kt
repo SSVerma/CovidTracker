@@ -12,6 +12,7 @@ import com.ssverma.covidtracker.data.model.domain.asStatItems
 import com.ssverma.covidtracker.databinding.FragmentStatsBinding
 import com.ssverma.covidtracker.di.ApplicationGraph
 import com.ssverma.covidtracker.extension.displaySnackBar
+import com.ssverma.covidtracker.extension.onRetry
 import com.ssverma.covidtracker.ui.BaseInjectionFragment
 import com.ssverma.covidtracker.ui.home.StatAdapter
 import com.ssverma.covidtracker.util.decoration.GridSpacingDecoration
@@ -47,7 +48,7 @@ class StatsFragment : BaseInjectionFragment<FragmentStatsBinding, StatsViewModel
         val statAdapter = StatAdapter()
         binding.rvMyCountryStats.adapter = statAdapter
 
-        viewModel.myCountryStats.observe(this, Observer {
+        viewModel.myCountryStats.observe(viewLifecycleOwner, Observer {
             when (it.status) {
                 Status.SUCCESS -> {
                     it.data?.let { stat ->
@@ -60,7 +61,7 @@ class StatsFragment : BaseInjectionFragment<FragmentStatsBinding, StatsViewModel
                         }
                         binding.flagImageUrl = stat.countryInfo?.flag
                         binding.tvCountryName.text = stat.country
-                        binding.tvMyCountryLabel.visibility = View.VISIBLE
+                        binding.ivFlag.visibility = View.VISIBLE
                     }
                 }
 
@@ -70,14 +71,20 @@ class StatsFragment : BaseInjectionFragment<FragmentStatsBinding, StatsViewModel
 
                 Status.ERROR_API -> {
                     toggleMyCountryLoadingIndicator(false)
-                    binding.tvMyCountryLabel.visibility = View.GONE
+                    binding.ivFlag.visibility = View.GONE
                     activity?.displaySnackBar(it.errorMessage)
+                    displayMyCountryStatsErrorView(it.errorMessage) {
+                        viewModel.onRetry(it.retry)
+                    }
                 }
 
                 Status.ERROR_CONNECTION -> {
                     toggleMyCountryLoadingIndicator(false)
-                    binding.tvMyCountryLabel.visibility = View.GONE
+                    binding.ivFlag.visibility = View.GONE
                     activity?.displaySnackBar(it.errorMessage)
+                    displayMyCountryStatsErrorView(it.errorMessage) {
+                        viewModel.onRetry(it.retry)
+                    }
                 }
 
             }
@@ -94,6 +101,29 @@ class StatsFragment : BaseInjectionFragment<FragmentStatsBinding, StatsViewModel
         }
     }
 
+    private fun displayGlobalStatsErrorView(errorMessage: String?, onRetry: () -> Unit) {
+        binding.cvErrorViewGlobal.apply {
+            cvErrorView.visibility = View.VISIBLE
+            tvErrorMessage.text = errorMessage
+            btnRetry.setOnClickListener {
+                toggleGlobalStatLoadingIndicator(true)
+                cvErrorView.visibility = View.GONE
+                onRetry()
+            }
+        }
+    }
+
+    private fun displayMyCountryStatsErrorView(errorMessage: String?, onRetry: () -> Unit) {
+        binding.cvErrorViewMyCountry.apply {
+            cvErrorView.visibility = View.VISIBLE
+            tvErrorMessage.text = errorMessage
+            btnRetry.setOnClickListener {
+                toggleMyCountryLoadingIndicator(true)
+                cvErrorView.visibility = View.GONE
+                onRetry()
+            }
+        }
+    }
 
     private fun setUpContents() {
         binding.rvGlobalStats.layoutManager =
@@ -103,7 +133,7 @@ class StatsFragment : BaseInjectionFragment<FragmentStatsBinding, StatsViewModel
         val statAdapter = StatAdapter()
         binding.rvGlobalStats.adapter = statAdapter
 
-        viewModel.globalStats.observe(this, Observer {
+        viewModel.globalStats.observe(viewLifecycleOwner, Observer {
             when (it.status) {
                 Status.SUCCESS -> {
                     lifecycleScope.launch(Dispatchers.Default) {
@@ -111,7 +141,6 @@ class StatsFragment : BaseInjectionFragment<FragmentStatsBinding, StatsViewModel
                         withContext(Dispatchers.Main) {
                             statAdapter.submitList(items)
                             toggleGlobalStatLoadingIndicator(false)
-                            binding.tvGlobalLabel.visibility = View.VISIBLE
                         }
                     }
                 }
@@ -122,14 +151,18 @@ class StatsFragment : BaseInjectionFragment<FragmentStatsBinding, StatsViewModel
 
                 Status.ERROR_API -> {
                     toggleGlobalStatLoadingIndicator(false)
-                    binding.tvGlobalLabel.visibility = View.GONE
                     activity?.displaySnackBar(it.errorMessage)
+                    displayGlobalStatsErrorView(it.errorMessage) {
+                        viewModel.onRetry(it.retry)
+                    }
                 }
 
                 Status.ERROR_CONNECTION -> {
                     toggleGlobalStatLoadingIndicator(false)
-                    binding.tvGlobalLabel.visibility = View.GONE
                     activity?.displaySnackBar(it.errorMessage)
+                    displayGlobalStatsErrorView(it.errorMessage) {
+                        viewModel.onRetry(it.retry)
+                    }
                 }
             }
         })

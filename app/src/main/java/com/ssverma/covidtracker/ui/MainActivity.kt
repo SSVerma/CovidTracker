@@ -5,15 +5,19 @@ import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.view.View
+import androidx.annotation.StringRes
 import androidx.appcompat.widget.SearchView
-import androidx.navigation.findNavController
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.setupActionBarWithNavController
-import androidx.navigation.ui.setupWithNavController
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentTransaction
 import com.ssverma.covidtracker.R
 import com.ssverma.covidtracker.databinding.ActivityMainBinding
 import com.ssverma.covidtracker.di.ApplicationGraph
-import kotlinx.android.synthetic.main.activity_main.*
+import com.ssverma.covidtracker.ui.about.AboutFragment
+import com.ssverma.covidtracker.ui.country.CountryFragment
+import com.ssverma.covidtracker.ui.home.HomeFragment
+import com.ssverma.covidtracker.ui.stats.StatsFragment
+import kotlin.reflect.KClass
+
 
 class MainActivity : BaseInjectionActivity<ActivityMainBinding, MainViewModel>() {
 
@@ -25,7 +29,7 @@ class MainActivity : BaseInjectionActivity<ActivityMainBinding, MainViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setUpToolbarWithNavController()
+        setUpBottomNavigationView()
         setUpSearchView()
     }
 
@@ -60,44 +64,124 @@ class MainActivity : BaseInjectionActivity<ActivityMainBinding, MainViewModel>()
         })
     }
 
-    private fun setUpToolbarWithNavController() {
+    private fun setUpBottomNavigationView() {
         setSupportActionBar(binding.toolbar)
 
-        val navController = findNavController(R.id.nav_host_fragment)
-        val appBarConfiguration = AppBarConfiguration(
-            setOf(
-                R.id.navigation_home,
-                R.id.navigation_statistics,
-                R.id.navigation_country,
-                R.id.navigation_about
-            )
-        )
-        setupActionBarWithNavController(navController, appBarConfiguration)
-        binding.navView.setupWithNavController(navController)
+        toggleToolbarIcon(false)
+        updateToolbarTitle(R.string.app_name)
+        switchTo(HomeFragment::class)
+        binding.cvSearch.visibility = View.GONE
 
-        navController.addOnDestinationChangedListener { controller, destination, arguments ->
-            if (destination.id == R.id.navigation_home) {
-                supportActionBar?.title = getString(R.string.app_name)
-                updateToolbarIcon()
-            } else {
-                toolbar.navigationIcon = null
+        binding.bottomNavigationView.setOnNavigationItemSelectedListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.navigation_home -> {
+                    toggleToolbarIcon(false)
+                    updateToolbarTitle(R.string.app_name)
+                    binding.cvSearch.visibility = View.GONE
+
+                    switchTo(HomeFragment::class)
+                }
+                R.id.navigation_statistics -> {
+                    toggleToolbarIcon(true)
+                    updateToolbarTitle(R.string.title_statistics)
+                    binding.cvSearch.visibility = View.GONE
+
+                    switchTo(StatsFragment::class)
+                }
+                R.id.navigation_country -> {
+                    toggleToolbarIcon(true)
+                    updateToolbarTitle(R.string.title_country)
+                    binding.cvSearch.visibility = View.VISIBLE
+
+                    switchTo(CountryFragment::class)
+                }
+
+                R.id.navigation_about -> {
+                    toggleToolbarIcon(true)
+                    updateToolbarTitle(R.string.title_about)
+                    binding.cvSearch.visibility = View.GONE
+
+                    switchTo(AboutFragment::class)
+                }
+
+                else -> false
             }
-
-            if (destination.id == R.id.navigation_country) {
-                binding.cvSearch.visibility = View.VISIBLE
-            } else {
-                binding.cvSearch.visibility = View.GONE
-            }
-
         }
 
     }
 
-    private fun updateToolbarIcon() {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
-            toolbar.setNavigationIcon(R.drawable.ic_logo_navigation)
+    private fun <T : Fragment> switchTo(clazz: KClass<T>): Boolean {
+        val currentVisibleFragment: Fragment? =
+            supportFragmentManager.primaryNavigationFragment
+
+        val tag = clazz.simpleName
+
+        if (currentVisibleFragment?.tag == tag) {
+            return false
+        }
+
+        val fragmentTransaction: FragmentTransaction =
+            supportFragmentManager.beginTransaction()
+
+        if (currentVisibleFragment != null) {
+            fragmentTransaction.hide(currentVisibleFragment)
+        }
+
+        val alreadyAddedFragment: Fragment? = supportFragmentManager.findFragmentByTag(tag)
+
+        if (alreadyAddedFragment == null) {
+            val destinationFragment = fragmentNewInstance(clazz)
+            fragmentTransaction.add(R.id.fcv_home, destinationFragment, tag)
+                .show(destinationFragment)
+                .setPrimaryNavigationFragment(destinationFragment)
         } else {
-            toolbar.setNavigationIcon(R.drawable.toolbar_logo)
+            fragmentTransaction
+                .setPrimaryNavigationFragment(alreadyAddedFragment)
+                .show(alreadyAddedFragment)
+        }
+
+        fragmentTransaction.commit()
+
+        return true
+    }
+
+    private fun <T : Fragment> fragmentNewInstance(clazz: KClass<T>): Fragment {
+        return when (clazz) {
+            HomeFragment::class -> HomeFragment()
+            StatsFragment::class -> StatsFragment()
+            CountryFragment::class -> CountryFragment()
+            AboutFragment::class -> AboutFragment()
+            else -> HomeFragment()
         }
     }
+
+    private fun updateToolbarTitle(@StringRes titleId: Int) {
+        supportActionBar?.setTitle(titleId)
+    }
+
+    private fun toggleToolbarIcon(shouldRemove: Boolean) {
+        if (shouldRemove) {
+            binding.toolbar.navigationIcon = null
+            return
+        }
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+            binding.toolbar.setNavigationIcon(R.drawable.ic_logo_navigation)
+        } else {
+            binding.toolbar.setNavigationIcon(R.drawable.toolbar_logo)
+        }
+    }
+
+    private fun isHomeFragmentVisible(): Boolean {
+        return supportFragmentManager.primaryNavigationFragment?.tag == HomeFragment::class.java.simpleName
+    }
+
+    override fun onBackPressed() {
+        if (!isHomeFragmentVisible()) {
+            switchTo(HomeFragment::class)
+            binding.bottomNavigationView.selectedItemId = R.id.navigation_home
+            return
+        }
+        super.onBackPressed()
+    }
+
 }

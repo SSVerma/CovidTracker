@@ -45,5 +45,6 @@
     <string name="api">API</string>
     <string name="app_source_code">Source code</string>
     <string name="developer">Developer</string>
+    <string name="retry">Retry</string>
 
 </resources>

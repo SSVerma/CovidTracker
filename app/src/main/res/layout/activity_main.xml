@@ -32,27 +32,24 @@
                 <androidx.appcompat.widget.SearchView
                     android:id="@+id/search_view"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="@dimen/country_search_bar_height"
                     app:queryHint="@string/search_country" />
 
             </com.google.android.material.card.MaterialCardView>
 
         </com.google.android.material.appbar.AppBarLayout>
 
-        <!--Navigation host-->
-        <fragment
-            android:id="@+id/nav_host_fragment"
-            android:name="androidx.navigation.fragment.NavHostFragment"
+        <!--Fragment container-->
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/fcv_home"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginBottom="?attr/actionBarSize"
-            app:defaultNavHost="true"
-            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
-            app:navGraph="@navigation/main_navigation_graph" />
+            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior" />
 
         <!--Bottom navigation bar-->
         <com.google.android.material.bottomnavigation.BottomNavigationView
-            android:id="@+id/nav_view"
+            android:id="@+id/bottom_navigation_view"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:layout_gravity="bottom"

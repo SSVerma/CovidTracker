@@ -56,16 +56,12 @@ dependencies {
 
     //AAC
     implementation "androidx.room:room-ktx:2.2.5"
-    implementation 'androidx.navigation:navigation-fragment:2.2.2'
-    implementation 'androidx.navigation:navigation-ui:2.2.2'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
-    implementation 'androidx.navigation:navigation-fragment-ktx:2.2.2'
-    implementation 'androidx.navigation:navigation-ui-ktx:2.2.2'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     kapt "androidx.room:room-compiler:2.2.5"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0"
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.2.0"
-    implementation "androidx.paging:paging-runtime-ktx:2.1.2"
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.2.0"
 
     //Networking
     implementation "com.squareup.retrofit2:retrofit:2.8.1"

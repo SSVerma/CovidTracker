@@ -13,6 +13,7 @@ import com.ssverma.covidtracker.data.model.domain.toDomain
 import com.ssverma.covidtracker.databinding.FragmentCountryBinding
 import com.ssverma.covidtracker.di.ApplicationGraph
 import com.ssverma.covidtracker.extension.displaySnackBar
+import com.ssverma.covidtracker.extension.onRetry
 import com.ssverma.covidtracker.ui.BaseInjectionFragment
 import com.ssverma.covidtracker.ui.MainActivity
 import com.ssverma.covidtracker.ui.MainViewModel
@@ -52,38 +53,44 @@ class CountryFragment : BaseInjectionFragment<FragmentCountryBinding, CountryVie
         val countryStatAdapter = CountryStatAdapter()
         binding.rvCountries.adapter = countryStatAdapter
 
-        mainViewModel.searchQuery.observe(this, Observer {
+        mainViewModel.searchQuery.observe(viewLifecycleOwner, Observer {
             countryStatAdapter.search(it)
         })
 
-        viewModel.countriesStats.observe(this, Observer {
+        viewModel.countriesStats.observe(viewLifecycleOwner, Observer {
             when (it.status) {
                 Status.SUCCESS -> {
                     lifecycleScope.launch {
                         val countries = it.data?.toDomain()
                         countryStatAdapter.submitList(countries, true)
-                        toggleMyCountryLoadingIndicator(false)
+                        toggleLoadingIndicator(false)
                     }
                 }
 
                 Status.LOADING -> {
-                    toggleMyCountryLoadingIndicator(true)
+                    toggleLoadingIndicator(true)
                 }
 
                 Status.ERROR_API -> {
-                    toggleMyCountryLoadingIndicator(false)
+                    toggleLoadingIndicator(false)
                     activity?.displaySnackBar(it.errorMessage)
+                    displayErrorView(it.errorMessage) {
+                        viewModel.onRetry(it.retry)
+                    }
                 }
 
                 Status.ERROR_CONNECTION -> {
-                    toggleMyCountryLoadingIndicator(false)
+                    toggleLoadingIndicator(false)
                     activity?.displaySnackBar(it.errorMessage)
+                    displayErrorView(it.errorMessage) {
+                        viewModel.onRetry(it.retry)
+                    }
                 }
             }
         })
     }
 
-    private fun toggleMyCountryLoadingIndicator(shouldShow: Boolean) {
+    private fun toggleLoadingIndicator(shouldShow: Boolean) {
         if (shouldShow) {
             binding.shimmerCountries.visibility = View.VISIBLE
             binding.shimmerCountries.startShimmer()
@@ -92,6 +99,18 @@ class CountryFragment : BaseInjectionFragment<FragmentCountryBinding, CountryVie
             binding.shimmerCountries.stopShimmer()
             binding.shimmerCountries.visibility = View.GONE
             binding.rvCountries.visibility = View.VISIBLE
+        }
+    }
+
+    private fun displayErrorView(errorMessage: String?, onRetry: () -> Unit) {
+        binding.cvErrorView.apply {
+            cvErrorView.visibility = View.VISIBLE
+            tvErrorMessage.text = errorMessage
+            btnRetry.setOnClickListener {
+                toggleLoadingIndicator(true)
+                cvErrorView.visibility = View.GONE
+                onRetry()
+            }
         }
     }
 
