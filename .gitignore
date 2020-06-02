@@ -1,0 +1,10 @@
+app/build
+/build
+.gradle/
+*.iml
+.gradle
+/local.properties
+/.idea/workspace.xml
+/.idea/libraries
+release_config.properties
+CovidTrackerProductionKeystore.jks

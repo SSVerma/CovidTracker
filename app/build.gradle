@@ -5,10 +5,36 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-android-extensions'
 
+def debugProps = new Properties()
+def debugConfigFile = file("../debug_config.properties")
+
+if (debugConfigFile != null && debugConfigFile.canRead()) {
+    debugConfigFile.withInputStream { debugProps.load(it) }
+}
+
+def releaseProps = new Properties()
+def releaseConfigFile = file("../release_config.properties")
+
+if (releaseConfigFile != null && releaseConfigFile.canRead()) {
+    releaseConfigFile.withInputStream { releaseProps.load(it) }
+}
+
 android {
+    signingConfigs {
+        releaseConfig {
+            if (releaseConfigFile != null && releaseConfigFile.canRead()) {
+                keyAlias releaseProps.getProperty("KEY_ALIAS")
+                keyPassword releaseProps.getProperty("KEY_PASSWORD")
+                storeFile file(releaseProps.getProperty("KEY_STORE_FILE_PATH"))
+                storePassword releaseProps.getProperty("KEY_STORE_PASSWORD")
+            }
+        }
+    }
+
     compileSdkVersion 29
     buildToolsVersion "29.0.2"
     defaultConfig {
+
         applicationId "com.ssverma.covidtracker"
         minSdkVersion 21
         targetSdkVersion 29
@@ -19,13 +45,20 @@ android {
     buildTypes {
         release {
             minifyEnabled true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.releaseConfig
+            if (releaseConfigFile != null && releaseConfigFile.canRead()) {
+                buildConfigField("String", "BASE_URL", releaseProps.getProperty("BASE_URL"))
+            }
         }
 
         debug {
             applicationIdSuffix ".debug"
             minifyEnabled false
-            buildConfigField("String", "BASE_URL", '"https://disease.sh/v2/"')
+            if (debugConfigFile != null && debugConfigFile.canRead()) {
+                buildConfigField("String", "BASE_URL", debugProps.getProperty("BASE_URL"))
+            }
         }
     }
 
