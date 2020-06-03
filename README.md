@@ -7,3 +7,7 @@ App is based on / usage:
 - Retrofit for Networking
 - Kotlin Coroutines for async operations
 - Material Design Components, Shimmer library for loading indicator
+
+
+Find at Play Store:
+https://play.google.com/store/apps/details?id=com.ssverma.covidtracker
