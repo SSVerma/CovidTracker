@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="colorPrimary">@color/color_blue_700</item>
+        <item name="colorPrimaryVariant">@color/color_blue_800</item>
+        <item name="android:statusBarColor">@color/color_blue_800</item>
+        <item name="android:windowLightNavigationBar">true</item>
+        <item name="android:navigationBarColor">@android:color/white</item>
+    </style>
+</resources>
