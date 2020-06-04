@@ -10,4 +10,4 @@ App is based on / usage:
 
 
 Find at Play Store:
-https://play.google.com/store/apps/details?id=com.ssverma.covidtracker
+https://play.google.com/store/apps/details?id=com.ssverma.covtracker
