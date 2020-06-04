@@ -9,5 +9,5 @@ App is based on / usage:
 - Material Design Components, Shimmer library for loading indicator
 
 
-Find at Play Store:
+Find at Play Store (Under Review):
 https://play.google.com/store/apps/details?id=com.ssverma.covtracker
